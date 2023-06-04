@@ -8,6 +8,9 @@ WORKDIR /workspace
 RUN apt-get update 
 RUN apt-get install -y build-essential  && apt-get install -y wget
 
+#Set timezone to Europe/London
+RUN ln -fs /usr/share/zoneinfo/Europe/London /etc/localtime && apt-get install -y tzdata && dpkg-reconfigure --frontend noninteractive tzdata
+
 # install some basic tools
 RUN apt-get install -y git && apt-get install -y vim && apt-get install -y curl && apt-get install -y unzip && apt-get install -y dumb-init 
 
