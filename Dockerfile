@@ -44,6 +44,8 @@ RUN ln -s /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 #symlink /var/www/html to /workspace
 RUN rm -rf /var/www/html && ln -s /workspace/html /var/www/html
 
+RUN mkdir /workspace/mysql
+
 #symlink /var/lib/mysql to /workspace
 RUN ln -s /workspace/mysql /var/lib/mysql
 
