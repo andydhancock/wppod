@@ -39,7 +39,7 @@ RUN apt-get install -y php8.2-amqp php8.2-ast php8.2-bcmath php8.2-bz2 php8.2-cg
 COPY . /workspace/
 
 #symlink ./php.ini to /etc/php.d/zzz_custom.ini
-RUN ln -s /workspace/php.ini /etc/php.d/zzz_custom.ini
+RUN ln -s /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 
 #symlink /var/www/html to /workspace
 RUN rm -rf /var/www/html && ln -s /workspace/html /var/www/html
