@@ -58,6 +58,12 @@ ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
 #set mysql root password, and permit it to fail, as it will fail if the password is already set
 RUN mysqladmin -u root password ${DEFAULT_MYSQL_ROOT_PASSWORD} || true 
 
+#set mysql root password in /root/.my.cnf
+RUN echo "[client]\nuser=root\npassword=${DEFAULT_MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
+
+#start mysql
+RUN service mysql start
+
 #Setup Mysql
 RUN mysql_secure_installation -D
  
