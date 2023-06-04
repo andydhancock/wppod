@@ -45,6 +45,8 @@ RUN ln -s /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 RUN rm -rf /var/www/html && ln -s /workspace/html /var/www/html
 
 RUN mkdir /workspace/mysql
+RUN mkdir /var/run/mysqld/
+RUN chmod 777 /var/run/mysqld/
 
 #symlink /var/lib/mysql to /workspace
 RUN ln -s /workspace/mysql /var/lib/mysql
@@ -52,11 +54,8 @@ RUN ln -s /workspace/mysql /var/lib/mysql
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
 
-#update mysql.sock location in /etc/mysql/mysql.conf.d/mysqld.cnf
-RUN sed -i 's/socket\s*=\s*\/var\/run\/mysqld\/mysqld.sock/socket = \/workspace\/mysql\/mysqld.sock/g' /etc/mysql/mysql.conf.d/mysqld.cnf
-
-#update mysql.sock location in /etc/mysql/mysql.conf.d/mysqld.cnf
-RUN sed -i 's/pid-file\s*=\s*\/var\/run\/mysqld\/mysqld.pid/pid-file = \/workspace\/mysql\/mysqld.pid/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+#cat mysql.conf
+RUN cat /etc/mysql/mysql.conf
 
 #restart mysql
 RUN service mysql restart
