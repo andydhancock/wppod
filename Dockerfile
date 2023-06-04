@@ -53,7 +53,7 @@ RUN ln -s /workspace/mysql /var/lib/mysql
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client
 
 #start mysql
-RUN service mysql start
+RUN service mysqld restart
 
 #set mysql environment variables to default values, if they are not already set
 ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
