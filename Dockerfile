@@ -33,7 +33,7 @@ RUN sed -i 's/location ~ \\\.php\$ {/location ~ \\\.php\$ {\nfastcgi_pass unix:\
 RUN ln -s /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 
 #install php extensions
-RUN apt-get remove php-apcu php-imagick php-yac
+RUN apt-get install php-apcu php-imagick php-yac
 
 RUN apt-get install -y php8.2-* --fix-missing
  #{apcu,bz2,calendar,cgi-fcgi,Core,ctype,curl,date,dom,exif,fileinfo,filter,ftp,gd,gettext,hash,iconv,intl,json,libxml,mbstring,mysqli,mysqlnd,openssl,pcntl,pcre,PDO,pdo_mysql,pdo_sqlite,Phar,posix,readline,redis,Reflection,session,shmop,SimpleXML,sockets,SPL,sqlite3,standard,sysvmsg,sysvsem,sysvshm,tokenizer,xml,xmlreader,xmlwriter,xsl,opcache,zip,zlib}
