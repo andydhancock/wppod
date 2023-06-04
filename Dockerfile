@@ -32,6 +32,8 @@ RUN sed -i 's/location ~ \\\.php\$ {/location ~ \\\.php\$ {\nfastcgi_pass unix:\
 #include ./nginx.conf at end of nginx conf
 RUN ln -s /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 
+RUN apt-cache search php8.2
+
 RUN apt-get install -y php-apcu php-imagick php-yac php8.2-* --fix-missing
  #{apcu,bz2,calendar,cgi-fcgi,Core,ctype,curl,date,dom,exif,fileinfo,filter,ftp,gd,gettext,hash,iconv,intl,json,libxml,mbstring,mysqli,mysqlnd,openssl,pcntl,pcre,PDO,pdo_mysql,pdo_sqlite,Phar,posix,readline,redis,Reflection,session,shmop,SimpleXML,sockets,SPL,sqlite3,standard,sysvmsg,sysvsem,sysvshm,tokenizer,xml,xmlreader,xmlwriter,xsl,opcache,zip,zlib}
 
