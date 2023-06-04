@@ -55,7 +55,7 @@ RUN ln -s /workspace/mysql /var/lib/mysql
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
 
 #cat mysql.conf
-RUN cat /etc/mysql/mysql.conf
+RUN cat /etc/mysql/my.cnf
 
 #restart mysql
 RUN service mysql restart
