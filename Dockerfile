@@ -50,10 +50,16 @@ RUN mkdir /workspace/mysql
 RUN ln -s /workspace/mysql /var/lib/mysql
 
 #install latest mysql 
-RUN apt-get install -y mysql-server && apt-get install -y mysql-client
+RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
 
-#start mysql
-RUN service mysqld restart
+#update mysql.sock location in /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN sed -i 's/socket\s*=\s*\/var\/run\/mysqld\/mysqld.sock/socket = \/workspace\/mysql\/mysqld.sock/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+
+#update mysql.sock location in /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN sed -i 's/pid-file\s*=\s*\/var\/run\/mysqld\/mysqld.pid/pid-file = \/workspace\/mysql\/mysqld.pid/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+
+#restart mysql
+RUN service mysql restart
 
 #set mysql environment variables to default values, if they are not already set
 ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
