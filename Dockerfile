@@ -41,6 +41,7 @@ COPY . /workspace/
 #symlink ./php.ini to /etc/php.d/zzz_custom.ini
 RUN ln -s /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 
+RUN mkdir /workspace/html
 #symlink /var/www/html to /workspace
 RUN rm -rf /var/www/html && ln -s /workspace/html /var/www/html
 
