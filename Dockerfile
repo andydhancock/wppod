@@ -69,5 +69,8 @@ RUN if [ ! -f /var/www/html/index.php ]; then wget https://en-gb.wordpress.org/l
 RUN chmod 777 /var/www/html/wp-content
 RUN chmod 777 ./run.sh
 
+#install bash
+RUN apt-get install -y bash
+
 # run server
 CMD ./run.sh
