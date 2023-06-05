@@ -57,8 +57,8 @@ ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
 
-#set mysql to run on 127.0.0.1 and not on a socket, port 3306
-#RUN sed -i 's/bind-address/#bind-address/g' /etc/mysql/mysql.conf.d/mysqld.cnf && sed -i 's/#port/port/g' /etc/mysql/mysql.conf.d/mysqld.cnf && sed -i 's/#socket/socket/g' /etc/mysql/mysql.conf.d/mysqld.cnf && sed -i 's/#skip-external-locking/skip-external-locking/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+#set mysql socket to /var/run/mysqld/mysqld.socket, uncommenting the line in /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN sed -i 's/#socket.*/socket = \/var\/run\/mysqld\/mysqld.sock/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 #cat mysql.conf
 RUN cat /etc/mysql/mysql.conf.d/mysqld.cnf
