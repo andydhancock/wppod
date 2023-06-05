@@ -1,4 +1,4 @@
-#!/usr/bin/dumb-init /bin/sh
+#!/bin/bash
 
 #set mysql environment variables to default values, if they are not already set
 export MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}

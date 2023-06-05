@@ -70,5 +70,4 @@ RUN chmod 777 /var/www/html/wp-content
 RUN chmod 777 ./run.sh
 
 # run server
-ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ./run.sh
