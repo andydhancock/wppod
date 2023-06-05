@@ -71,4 +71,4 @@ RUN chmod 777 /workspace/run.sh
 
 # run server
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD ./run.sh
+CMD /workspace/run.sh
