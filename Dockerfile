@@ -66,6 +66,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #install wordpress into default nginx site, if it doesn't exist already
 RUN if [ ! -f /var/www/html/index.php ]; then wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip latest-en_GB.zip && mv wordpress/* /var/www/html/ && rm -rf wordpress && rm latest-en_GB.zip; fi
 
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
+
 RUN chmod 777 /var/www/html/wp-content
 RUN chmod 777 ./run.sh
 
