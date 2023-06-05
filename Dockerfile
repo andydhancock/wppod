@@ -52,28 +52,10 @@ RUN chmod 777 /var/run/mysqld/
 RUN ln -s /workspace/mysql /var/lib/mysql
 
 #set mysql environment variables to default values, if they are not already set
-ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
+ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-}
 
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
-
-#set mysql socket to /var/run/mysqld/mysqld.socket, uncommenting the line in /etc/mysql/mysql.conf.d/mysqld.cnf
-RUN sed -i 's/# socket.*/socket = \/var\/run\/mysqld\/mysqld.sock/g' /etc/mysql/mysql.conf.d/mysqld.cnf
-
-#cat mysql.conf
-RUN cat /etc/mysql/mysql.conf.d/mysqld.cnf
-
-#restart mysql
-RUN service mysql restart
-
-#set mysql root password, and permit it to fail, as it will fail if the password is already set
-RUN mysqladmin -h 0.0.0.0 -u root password ${DEFAULT_MYSQL_ROOT_PASSWORD} || true 
-
-#set mysql root password in /root/.my.cnf
-RUN echo "[client]\nuser=root\npassword=${DEFAULT_MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
-
-#Setup Mysql
-RUN mysql_secure_installation  -h 0.0.0.0 -D
  
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
