@@ -58,7 +58,7 @@ ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
 
 #set mysql socket to /var/run/mysqld/mysqld.socket, uncommenting the line in /etc/mysql/mysql.conf.d/mysqld.cnf
-RUN sed -i 's/#socket.*/socket = \/var\/run\/mysqld\/mysqld.sock/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+RUN sed -i 's/# socket.*/socket = \/var\/run\/mysqld\/mysqld.sock/g' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 #cat mysql.conf
 RUN cat /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -67,13 +67,13 @@ RUN cat /etc/mysql/mysql.conf.d/mysqld.cnf
 RUN service mysql restart
 
 #set mysql root password, and permit it to fail, as it will fail if the password is already set
-RUN mysqladmin -h 127.0.0.1 -u root password ${DEFAULT_MYSQL_ROOT_PASSWORD} || true 
+RUN mysqladmin -u root password ${DEFAULT_MYSQL_ROOT_PASSWORD} || true 
 
 #set mysql root password in /root/.my.cnf
 RUN echo "[client]\nuser=root\npassword=${DEFAULT_MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
 
 #Setup Mysql
-RUN mysql_secure_installation  -h 127.0.0.1 -D
+RUN mysql_secure_installation -D
  
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
