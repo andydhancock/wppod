@@ -30,6 +30,7 @@ RUN apt-get install -y nginx && apt-get install -y redis-server
 RUN sed -i 's/location ~ \\\.php\$ {/location ~ \\\.php\$ {\nfastcgi_pass unix:\/run\/php\/php8.2-fpm.sock;/g' /etc/nginx/sites-available/default
 
 #include ./nginx.conf at end of nginx conf
+RUN touch /workspace/nginx.conf
 RUN ln -s /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 
 RUN apt-cache search php8.2
@@ -39,6 +40,7 @@ RUN apt-get install -y php8.2-amqp php8.2-ast php8.2-bcmath php8.2-bz2 php8.2-cg
 COPY . /workspace/
 
 #symlink ./php.ini to /etc/php.d/zzz_custom.ini
+RUN touch /workspace/php.ini
 RUN ln -s /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 
 RUN mkdir /workspace/html
@@ -63,6 +65,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 #install wordpress into default nginx site, if it doesn't exist already
 RUN if [ ! -f /var/www/html/index.php ]; then wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip latest-en_GB.zip && mv wordpress/* /var/www/html/ && rm -rf wordpress && rm latest-en_GB.zip; fi
+
+RUN chmod 777 /var/www/html/wp-content
+RUN chmod 777 /workspace/run.sh
 
 # run server
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
