@@ -67,8 +67,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN if [ ! -f /var/www/html/index.php ]; then wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip latest-en_GB.zip && mv wordpress/* /var/www/html/ && rm -rf wordpress && rm latest-en_GB.zip; fi
 
 RUN chmod 777 /var/www/html/wp-content
-RUN chmod 777 /workspace/run.sh
+RUN chmod 777 ./run.sh
 
 # run server
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
-CMD /workspace/run.sh
+CMD ./run.sh
