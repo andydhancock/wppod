@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #set mysql environment variables to default values, if they are not already set
 export MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-r00T!}
 export MYSQL_DATABASE=${MYSQL_DATABASE:-"wordpress"}
