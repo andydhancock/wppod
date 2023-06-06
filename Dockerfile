@@ -76,4 +76,4 @@ RUN chmod 777 ./run.sh
 RUN apt-get install -y bash
 
 # run server
-CMD ./run.sh
+ENTRYPOINT [ "bash", "-c", "./run.sh" ]
