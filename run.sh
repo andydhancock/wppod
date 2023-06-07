@@ -20,8 +20,8 @@ if [ ! -f /workspace/mysqlsecureinstallation.log ]; then
 	#set mysql root password in /root/.my.cnf
 	echo "[client]\nuser=root\npassword=${MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
 
-	#run mysql_secure_installation
-	mysql_secure_installation -D > /workspace/mysqlsecureinstallation.log
+	#run mysql_secure_installation.sql
+	mysql -uroot < mysql_secure_installation.sql > /workspace/mysqlsecureinstallation.log
 
 fi
 
