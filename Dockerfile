@@ -55,9 +55,6 @@ RUN chmod 777 /var/run/mysqld/
 #symlink /var/lib/mysql to /workspace
 RUN ln -s /workspace/mysql /var/lib/mysql
 
-#set mysql environment variables to default values, if they are not already set
-ENV DEFAULT_MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-}
-
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
  
