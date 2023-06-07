@@ -71,10 +71,11 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
 RUN chmod 777 /var/www/html/wp-content
-RUN chmod 777 /workspace/run.sh
+RUN chmod 777 ./run.sh
+RUN chmod +x ./run.sh
 
 #install bash
 RUN apt-get install -y bash
 
 # run server
-ENTRYPOINT [ "bash", "-c", "/workspace/run.sh" ]
+ENTRYPOINT [ "bash", "-c", "./run.sh" ]
