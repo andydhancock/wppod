@@ -5,11 +5,11 @@ export MYSQL_USER=${MYSQL_USER:-"wordpress"}
 export MYSQL_PASSWORD=${MYSQL_PASSWORD:-"w0rdpr3sS!"}
 
 echo "Starting mysql"
-service mysql start
+service mysql restart
 #if /var/lib/mysql is empty, then run mysql_install_db
 if [ -z "$(ls -A /var/lib/mysql)" ]; then
 	echo "initializing mysql database"
-	mysql_install_db --user=mysql --datadir=/var/lib/mysql
+	mysql_install_db --insecure --user=mysql --datadir=/var/lib/mysql
 fi
 #if mysqlsecureinstallation.log doesn't exist, then run mysql_secure_installation
 if [ ! -f /workspace/mysqlsecureinstallation.log ]; then
