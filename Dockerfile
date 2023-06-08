@@ -27,8 +27,24 @@ RUN apt-get install -y software-properties-common && add-apt-repository ppa:ondr
 #install nginx and redis
 RUN apt-get install -y nginx && apt-get install -y redis-server 
 
+#install ssl for nginx
+RUN apt-get install -y openssl && apt-get install -y ssl-cert
+#setup ssl
+RUN mkdir /etc/nginx/ssl
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt -subj "/C=GB/ST=London/L=London/O=Global Security/OU=IT Department/CN=example.com"
+
+#set default site into nginx.conf
+RUN rm /etc/nginx/sites-enabled/default
+COPY ./default /etc/nginx/sites-enabled/default
+
+
+#install certbot
+RUN apt-get install -y certbot python3-certbot-nginx
+
 #put php-fpm into nginx.conf
 COPY ./php-fpm.conf /etc/nginx/conf.d/php-fpm.conf
+
+
 
 #include ./nginx.conf at end of nginx conf
 RUN touch /workspace/nginx.conf
