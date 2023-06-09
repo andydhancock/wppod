@@ -21,6 +21,7 @@ RUN apt-get remove -y php*
 #remove apache2
 RUN apt-get remove -y apache2
 
+RUN apt-get upgrade -y
 #install php 8.2 and nginx
 RUN apt-get install -y software-properties-common && add-apt-repository ppa:ondrej/php && add-apt-repository ppa:ondrej/nginx && apt-get update && apt-get install -y php8.2 && apt-get install -y php8.2-fpm
 
