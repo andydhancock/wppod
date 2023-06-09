@@ -30,6 +30,20 @@ echo "Creating wordpress database and user"
 #mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" || true && mysql -u root -p${DEFAULT_MYSQL_ROOT_PASSWORD} -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${MYSQL_PASSWORD}';" || true && mysql -u root -p${DEFAULT_MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost';" || true && mysql -u root -p${DEFAULT_MYSQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;" || true
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" || true && mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${MYSQL_PASSWORD}';" || true && mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost';" || true && mysql -u root -e "FLUSH PRIVILEGES;" || true
 
+#if /var/www/html/wp-config.php doesn't exist, then create it
+if [ ! -f /var/www/html/wp-config.php ]; then
+	echo "Creating wp-config.php"
+	#copy wp-config-sample.php to wp-config.php
+	cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+	#set database name in wp-config.php
+	sed -i "s/database_name_here/${MYSQL_DATABASE}/" /var/www/html/wp-config.php
+	#set database user in wp-config.php
+	sed -i "s/username_here/${MYSQL_USER}/" /var/www/html/wp-config.php
+	#set database password in wp-config.php
+	sed -i "s/password_here/${MYSQL_PASSWORD}/" /var/www/html/wp-config.php
+fi
+
+
 echo "Starting php8.2-fpm"
 service php8.2-fpm start
 
