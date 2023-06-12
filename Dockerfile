@@ -66,13 +66,12 @@ RUN cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 RUN mkdir /workspace/html
 #symlink /var/www/html to /workspace
 
-RUN mkdir /workspace/mysql
-RUN chown -R mysql:mysql /workspace/mysql
-RUN chmod -R 777 /workspace/mysql
-
-
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
+
+RUN mkdir /workspace/mysql
+RUN chmod -R 777 /workspace/mysql
+RUN chown -R mysql:mysql /workspace/mysql
 
 #set mysql data dir to /workspace/mysql
 RUN sed -i 's|datadir.*|datadir         = /workspace/mysql|g' /etc/mysql/mysql.conf.d/mysqld.cnf
