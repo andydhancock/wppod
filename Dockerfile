@@ -92,5 +92,6 @@ RUN chmod +x /var/scripts/run.sh
 #install bash
 RUN apt-get install -y bash
 
+RUN ls -la /workspace
 # run server
 ENTRYPOINT [ "bash", "-c", "/workspace/customrun.sh" ]
