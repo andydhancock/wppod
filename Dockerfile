@@ -85,12 +85,12 @@ RUN if [ ! -f /var/www/html/index.php ]; then wget https://en-gb.wordpress.org/l
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-RUN chmod 777 /var/www/html/wp-content
-RUN chmod 777 ./customrun.sh
+RUN chmod -R 777 /var/www/html
+RUN chmod 777 /workspace/customrun.sh
 RUN chmod +x /var/scripts/run.sh
 
 #install bash
 RUN apt-get install -y bash
 
 # run server
-ENTRYPOINT [ "bash", "-c", "./customrun.sh" ]
+ENTRYPOINT [ "bash", "-c", "/workspace/customrun.sh" ]
