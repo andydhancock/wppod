@@ -94,4 +94,4 @@ RUN apt-get install -y bash
 
 RUN ls -la /workspace
 # run server
-ENTRYPOINT [ "bash", "-c", "/workspace/customrun.sh" ]
+CMD bash -c /workspace/customrun.sh
