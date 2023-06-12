@@ -52,9 +52,10 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 	
 fi
 
-
+cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 echo "Starting php8.2-fpm"
 service php8.2-fpm start
 
+cp /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 echo "Starting nginx"
 nginx -g "daemon off;"

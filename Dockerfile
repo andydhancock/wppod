@@ -46,10 +46,9 @@ RUN apt-get install -y certbot python3-certbot-nginx
 COPY ./php-fpm.conf /etc/nginx/conf.d/php-fpm.conf
 
 
-
 #include ./nginx.conf at end of nginx conf
 RUN touch /workspace/nginx.conf
-RUN ln -s /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
+RUN cp /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 
 RUN apt-cache search php8.2
 RUN apt-get update 
@@ -62,20 +61,22 @@ COPY run.sh /var/scripts/run.sh
 
 #symlink ./php.ini to /etc/php.d/zzz_custom.ini
 RUN touch /workspace/php.ini
-RUN ln -s /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
+RUN cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 
 RUN mkdir /workspace/html
 #symlink /var/www/html to /workspace
-RUN rm -rf /var/www/html && ln -s /workspace/html /var/www/html
 
 RUN mkdir /workspace/mysql
+RUN chown -R mysql:mysql /workspace/mysql
+RUN chmod -R 777 /workspace/mysql
 
-#symlink /var/lib/mysql to /workspace
-RUN ln -s /workspace/mysql /var/lib/mysql
 
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
- 
+
+#set mysql data dir to /workspace/mysql
+RUN sed -i 's|datadir.*|datadir         = /workspace/mysql|g' /etc/mysql/mysql.conf.d/mysqld.cnf
+
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -85,7 +86,7 @@ RUN if [ ! -f /var/www/html/index.php ]; then wget https://en-gb.wordpress.org/l
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-RUN chmod -R 777 /var/www/html
+RUN chmod -R 777 /workspace/html
 RUN chmod 777 /workspace/customrun.sh
 RUN chmod +x /var/scripts/run.sh
 
