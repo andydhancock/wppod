@@ -21,7 +21,7 @@ if [ ! -f /workspace/mysqlsecureinstallation.log ]; then
 	echo "[client]\nuser=root\npassword=${MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
 
 	#run mysql_secure_installation.sql
-	mysql -uroot < mysql_secure_installation.sql > /workspace/mysqlsecureinstallation.log
+	mysql -uroot < /workspace/wppod/mysql_secure_installation.sql > /workspace/mysqlsecureinstallation.log
 
 fi
 
@@ -30,32 +30,32 @@ echo "Creating wordpress database and user"
 #mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" || true && mysql -u root -p${DEFAULT_MYSQL_ROOT_PASSWORD} -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${MYSQL_PASSWORD}';" || true && mysql -u root -p${DEFAULT_MYSQL_ROOT_PASSWORD} -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost';" || true && mysql -u root -p${DEFAULT_MYSQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;" || true
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" || true && mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';" || true && mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost';" || true && mysql -u root -e "FLUSH PRIVILEGES;" || true
 
-if [ ! -f /var/www/html/index.php ]; then 
-	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip latest-en_GB.zip && mv wordpress/* /var/www/html/ && rm -rf wordpress && rm latest-en_GB.zip; 
+if [ ! -f /workspace/html/index.php ]; then 
+	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip; 
 fi
 
-#if /var/www/html/wp-config.php doesn't exist, then create it.
-if [ ! -f /var/www/html/wp-config.php ]; then
+#if /workspace/html/wp-config.php doesn't exist, then create it.
+if [ ! -f /workspace/html/wp-config.php ]; then
 	echo "Creating wp-config.php"
 	#copy wp-config-sample.php to wp-config.php	
-	cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+	cp /workspace/html/wp-config-sample.php /workspace/html/wp-config.php
 	#set database name in wp-config.php
-	sed -i "s/database_name_here/${MYSQL_DATABASE}/" /var/www/html/wp-config.php
+	sed -i "s/database_name_here/${MYSQL_DATABASE}/" /workspace/html/wp-config.php
 	#set database user in wp-config.php
-	sed -i "s/username_here/${MYSQL_USER}/" /var/www/html/wp-config.php
+	sed -i "s/username_here/${MYSQL_USER}/" /workspace/html/wp-config.php
 	#set database password in wp-config.php
-	sed -i "s/password_here/${MYSQL_PASSWORD}/" /var/www/html/wp-config.php
+	sed -i "s/password_here/${MYSQL_PASSWORD}/" /workspace/html/wp-config.php
 	#change localhost to 127.0.0.1
-	sed -i "s/localhost/127.0.0.1/" /var/www/html/wp-config.php
+	sed -i "s/localhost/127.0.0.1/" /workspace/html/wp-config.php
 	#set authentication unique keys and salts
-	sed -i "s/put your unique phrase here/$(curl -s https://api.wordpress.org/secret-key/1.1/salt)/" /var/www/html/wp-config.php
+	sed -i "s/put your unique phrase here/$(curl -s https://api.wordpress.org/secret-key/1.1/salt)/" /workspace/html/wp-config.php
 	
 fi
 
-cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
+cp /workspace/wppod/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 echo "Starting php8.2-fpm"
 service php8.2-fpm start
 
-cp /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
+cp /workspace/wppod/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 echo "Starting nginx"
 nginx -g "daemon off;"
