@@ -58,14 +58,14 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	#set authentication unique keys and salts
 	sed -i "s/put your unique phrase here/$(curl -s https://api.wordpress.org/secret-key/1.1/salt)/" /workspace/html/wp-config.php
 
-	#set WPLANG to en_GB, add line if it doesn't exist
+	#set WPLANG to en_GB, add line after the line which contains "Add any custom values' if it doesn't exist
 	if grep -q "WPLANG" /workspace/html/wp-config.php; then
 		sed -i "s/define('WPLANG', '');/define('WPLANG', 'en_GB');/" /workspace/html/wp-config.php
 	else
-		sed -i "s/define('WP_DEBUG', false);/define('WP_DEBUG', false);\ndefine('WPLANG', 'en_GB');/" /workspace/html/wp-config.php
+		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');" /workspace/html/wp-config.php
 	fi
-
 	
+
 	
 fi
 
