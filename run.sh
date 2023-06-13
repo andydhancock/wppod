@@ -7,14 +7,20 @@ export MYSQL_PASSWORD=${MYSQL_PASSWORD:-"w0rdpr3sS!"}
 #if /
 
 
-echo "Starting mysql"
-service mysql restart
+
+cp /workspace/mysqld.cnf /etc/mysql/mysql.conf.d/zz-mysqld.cnf
+
+
 #if /var/lib/mysql is empty, then run mysql_install_db
 if [ -z "$(ls -A /workspace/mysql)" ]; then
 	echo "initializing mysql database"
 	mysqld --initialize --user=root --basedir=/usr --datadir=/workspace/mysql
 
 fi
+
+echo "Starting mysql"
+service mysql restart
+
 #if mysqlsecureinstallation.log doesn't exist, then run mysql_secure_installation
 if [ ! -f /workspace/mysqlsecureinstallation.log ]; then
 	echo "running mysql_secure_installation"
@@ -73,10 +79,10 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	
 fi
 
-cp /workspace/wppod/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
+cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 echo "Starting php8.2-fpm"
 service php8.2-fpm start
 
-cp /workspace/wppod/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
+cp /workspace/nginx.conf /etc/nginx/conf.d/zzz_custom.conf
 echo "Starting nginx"
 nginx -g "daemon off;"
