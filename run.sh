@@ -14,7 +14,7 @@ cp /workspace/mysqld.cnf /etc/mysql/mysql.conf.d/zz-mysqld.cnf
 #if /var/lib/mysql is empty, then run mysql_install_db
 if [ -z "$(ls -A /workspace/mysql)" ]; then
 	echo "initializing mysql database"
-	mysqld --initialize --user=root --basedir=/usr --datadir=/workspace/mysql
+	mysqld --initialize-insecure --user=root --basedir=/usr --datadir=/workspace/mysql
 
 fi
 
@@ -75,6 +75,8 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');" /workspace/html/wp-config.php
 	fi
 	
+	#create wp_options table if it doesn't exist
+	mysql -u root -e "CREATE TABLE IF NOT EXISTS ${MYSQL_DATABASE}.wp_options ( option_id bigint(20) unsigned NOT NULL AUTO_INCREMENT, option_name varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '', option_value longtext COLLATE utf8mb4_unicode_ci NOT NULL, autoload varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'yes', PRIMARY KEY (option_id), UNIQUE KEY option_name (option_name) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;" || true
 
 	
 fi
