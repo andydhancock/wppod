@@ -94,8 +94,8 @@ RUN chmod +x /var/scripts/run.sh
 #install bash
 RUN apt-get install -y bash
 
-RUN git clone git@github.com:andydhancock/wppod.git /workspace/wppod
+RUN git clone https://github.com/andydhancock/wppod.git /workspace/wppod
 
-RUN mv -f /workspace/wppod/* /workspace/
+RUN mv -n /workspace/wppod/* /workspace/
 # run server
 CMD bash -c /workspace/customrun.sh
