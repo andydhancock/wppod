@@ -66,7 +66,6 @@ RUN touch /workspace/php.ini
 RUN cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 
 RUN mkdir /workspace/html
-#symlink /var/www/html to /workspace
 
 #install latest mysql 
 RUN apt-get install -y mysql-server && apt-get install -y mysql-client	
@@ -81,6 +80,8 @@ RUN sed -i 's|# datadir.*|datadir         = /workspace/mysql|g' /etc/mysql/mysql
 #remove STRICT_TRANS_TABLES from sql_mode
 RUN sed -i 's|sql_mode.*|sql_mode        = NO_ENGINE_SUBSTITUTION|g' /etc/mysql/mysql.conf.d/mysqld.cnf
 
+#set mysql user to root
+RUN sed -i 's|user.*|user            = root|g' /etc/mysql/mysql.conf.d/mysqld.cnf
 
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
