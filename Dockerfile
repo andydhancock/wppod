@@ -78,6 +78,10 @@ RUN chown -R mysql:mysql /workspace/mysql
 #set mysql data dir to /workspace/mysql
 RUN sed -i 's|datadir.*|datadir         = /workspace/mysql|g' /etc/mysql/mysql.conf.d/mysqld.cnf
 
+#remove STRICT_TRANS_TABLES from sql_mode
+RUN sed -i 's|sql_mode.*|sql_mode        = NO_ENGINE_SUBSTITUTION|g' /etc/mysql/mysql.conf.d/mysqld.cnf
+
+
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
