@@ -31,7 +31,15 @@ echo "Creating wordpress database and user"
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" || true && mysql -u root -e "CREATE USER '${MYSQL_USER}'@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';" || true && mysql -u root -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'localhost';" || true && mysql -u root -e "FLUSH PRIVILEGES;" || true
 
 if [ ! -f /workspace/html/index.php ]; then 
-	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip; 
+	echo "Downloading wordpress"
+	#if /workspace/html/ doesn't exist, create it
+	if [ ! -d /workspace/html/ ]; then
+		mkdir -p /workspace/html/
+		chmod 755 /workspace/html/
+		chown www-data:www-data /workspace/html/
+	fi
+
+	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip; 
 fi
 
 #if /workspace/html/wp-config.php doesn't exist, then create it.
