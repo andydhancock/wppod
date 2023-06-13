@@ -76,6 +76,7 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	fi
 	
 	#copy functions.php to /workspace/html/wp-content/themes/twentytwentythree/functions.php, don't overwrite if it already exists
+	
 	cp -n /workspace/wppod/functions.php /workspace/html/wp-content/themes/twentytwentythree/functions.php
 	
 fi
