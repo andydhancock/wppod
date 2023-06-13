@@ -67,7 +67,7 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	if grep -q "WPLANG" /workspace/html/wp-config.php; then
 		sed -i "s/define('WPLANG', '');/define('WPLANG', 'en_GB');/" /workspace/html/wp-config.php
 	else
-		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB'" /workspace/html/wp-config.php
+		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB';define( 'WP_MEMORY_LIMIT', '256M' );error_reporting(E_ALL & ~E_NOTICE);" /workspace/html/wp-config.php
 	fi
 	
 fi
