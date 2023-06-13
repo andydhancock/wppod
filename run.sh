@@ -67,12 +67,9 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	if grep -q "WPLANG" /workspace/html/wp-config.php; then
 		sed -i "s/define('WPLANG', '');/define('WPLANG', 'en_GB');/" /workspace/html/wp-config.php
 	else
-		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');" /workspace/html/wp-config.php
+		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB'" /workspace/html/wp-config.php
 	fi
 	
-	#add add_filter('option_WPLANG', function($value) { return 'en_GB'; } ); to last line of wp-includes/default-filters.php
-	sed -i "\$a add_filter('option_WPLANG', function(\$value) { return 'en_GB'; } );" /workspace/html/wp-includes/default-filters.php
-
 fi
 
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
