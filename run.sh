@@ -4,12 +4,7 @@ export MYSQL_DATABASE=${MYSQL_DATABASE:-"wordpress"}
 export MYSQL_USER=${MYSQL_USER:-"wordpress"}
 export MYSQL_PASSWORD=${MYSQL_PASSWORD:-"w0rdpr3sS!"}
 
-#if /
-
-
-
 cp /workspace/mysqld.cnf /etc/mysql/mysql.conf.d/zz-mysqld.cnf
-
 
 #if /var/lib/mysql is empty, then run mysql_install_db
 if [ -z "$(ls -A /workspace/mysql)" ]; then
@@ -75,10 +70,9 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');" /workspace/html/wp-config.php
 	fi
 	
-	#copy functions.php to /workspace/html/wp-content/themes/twentytwentythree/functions.php, don't overwrite if it already exists
-	
-	cp -n /workspace/wppod/functions.php /workspace/html/wp-content/themes/twentytwentythree/functions.php
-	
+	#add add_filter('option_WPLANG', function($value) { return 'en_GB'; } ); to last line of wp-includes/default-filters.php
+	sed -i "\$a add_filter('option_WPLANG', function(\$value) { return 'en_GB'; } );" /workspace/html/wp-includes/default-filters.php
+
 fi
 
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
