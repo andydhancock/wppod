@@ -23,7 +23,7 @@ if [ ! -f /workspace/mysqlsecureinstallation.log ]; then
 	mysqladmin -u root password ${MYSQL_ROOT_PASSWORD} > /workspace/mysqladmin.log 2>&1
 
 	#set mysql root password in /root/.my.cnf
-	echo "[client]\nuser=root\npassword=${MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
+	echo -e "[client]\nuser=root\npassword=${MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
 
 	#run mysql_secure_installation.sql
 	mysql -uroot < /workspace/wppod/mysql_secure_installation.sql > /workspace/mysqlsecureinstallation.log
@@ -44,7 +44,7 @@ if [ ! -f /workspace/html/index.php ]; then
 		chown www-data:www-data /workspace/html/
 	fi
 
-	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip -q -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip ; 
+	wget -q https://en-gb.wordpress.org/latest-en_GB.zip && unzip -q -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip ; 
 fi
 
 #if /workspace/html/wp-config.php doesn't exist, then create it.
