@@ -73,7 +73,7 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 
 	#set WP_DEBUG to true, add line after the line which contains "Add any custom values' if it doesn't exist
 	if grep -q "WP_DEBUG" /workspace/html/wp-config.php; then
-		sed -i "s/define('WP_DEBUG', false);/define('WP_DEBUG', true);/" /workspace/html/wp-config.php
+		sed -i "s/define( 'WP_DEBUG', false );/define('WP_DEBUG', true);/" /workspace/html/wp-config.php
 	else
 		sed -i "/Add any custom values/a define('WP_DEBUG', true);" /workspace/html/wp-config.php
 	fi
