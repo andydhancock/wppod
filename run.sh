@@ -85,6 +85,8 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 		sed -i "/Add any custom values/a define('WP_DEBUG_LOG', '/workspace/debug.log');" /workspace/html/wp-config.php
 	fi
 
+	#add $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry(); after the line which contains "Add any custom values'
+	sed -i "/Add any custom values/a \$GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry();" /workspace/html/wp-config.php
 
 
 fi
