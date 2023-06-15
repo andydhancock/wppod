@@ -9,7 +9,7 @@ cp /workspace/mysqld.cnf /etc/mysql/mysql.conf.d/zz-mysqld.cnf
 #if /var/lib/mysql is empty, then run mysql_install_db
 if [ -z "$(ls -A /workspace/mysql)" ]; then
 	echo "initializing mysql database"
-	mysqld --initialize-insecure --user=root --basedir=/usr --datadir=/workspace/mysql
+	mysqld --initialize-insecure --user=root --basedir=/usr --datadir=/workspace/mysql > /workspace/mysql.log 2>&1
 
 fi
 
@@ -20,7 +20,7 @@ service mysql restart
 if [ ! -f /workspace/mysqlsecureinstallation.log ]; then
 	echo "running mysql_secure_installation"
 	#set default mysql root password
-	mysqladmin -u root password ${MYSQL_ROOT_PASSWORD}
+	mysqladmin -u root password ${MYSQL_ROOT_PASSWORD} > /workspace/mysqladmin.log 2>&1
 
 	#set mysql root password in /root/.my.cnf
 	echo "[client]\nuser=root\npassword=${MYSQL_ROOT_PASSWORD}" > /root/.my.cnf
