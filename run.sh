@@ -44,7 +44,7 @@ if [ ! -f /workspace/html/index.php ]; then
 		chown www-data:www-data /workspace/html/
 	fi
 
-	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip; 
+	wget https://en-gb.wordpress.org/latest-en_GB.zip && unzip -q -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip ; 
 fi
 
 #if /workspace/html/wp-config.php doesn't exist, then create it.
