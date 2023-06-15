@@ -104,4 +104,4 @@ RUN rm -rf /workspace/wppod
 RUN git clone https://github.com/andydhancock/wppod.git /workspace/wppod
 
 # run server
-CMD bash -c /workspace/wppod/customrun.sh
+CMD bash -c /var/scripts/run.sh

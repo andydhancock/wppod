@@ -70,6 +70,8 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB';define( 'WP_MEMORY_LIMIT', '256M' );" /workspace/html/wp-config.php
 	fi
 	
+	mv /workspace/html/wp-config.php /workspace/html/wp-config.php.bak
+
 fi
 
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
