@@ -44,7 +44,11 @@ if [ ! -f /workspace/html/index.php ]; then
 		chown www-data:www-data /workspace/html/
 	fi
 
-	wget -q https://en-gb.wordpress.org/latest-en_GB.zip && unzip -q -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip ; 
+	#wget -q https://en-gb.wordpress.org/latest-en_GB.zip && unzip -q -o latest-en_GB.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest-en_GB.zip ; 
+	#get latest all language version
+	wget -q https://wordpress.org/latest.zip && unzip -q -o latest.zip && mv wordpress/* /workspace/html/ && rm -rf wordpress && rm latest.zip ;
+	#set permissions
+	
 fi
 
 #if /workspace/html/wp-config.php doesn't exist, then create it.
@@ -63,12 +67,12 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	#set authentication unique keys and salts
 	sed -i "s/put your unique phrase here/$(curl -s https://api.wordpress.org/secret-key/1.1/salt)/" /workspace/html/wp-config.php
 
-	#set WPLANG to en_GB, add line after the line which contains "Add any custom values' if it doesn't exist
-	if grep -q "WPLANG" /workspace/html/wp-config.php; then
-		sed -i "s/define('WPLANG', '');/define('WPLANG', 'en_GB');/" /workspace/html/wp-config.php
-	else
-		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB';define( 'WP_MEMORY_LIMIT', '256M' );" /workspace/html/wp-config.php
-	fi
+	# #set WPLANG to en_GB, add line after the line which contains "Add any custom values' if it doesn't exist
+	# if grep -q "WPLANG" /workspace/html/wp-config.php; then
+	# 	sed -i "s/define('WPLANG', '');/define('WPLANG', 'en_GB');/" /workspace/html/wp-config.php
+	# else
+	# 	sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB';define( 'WP_MEMORY_LIMIT', '256M' );" /workspace/html/wp-config.php
+	# fi
 	
 
 	#set WP_DEBUG to true, add line after the line which contains "Add any custom values' if it doesn't exist
@@ -88,9 +92,7 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	#add $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry(); after the line which contains "Add any custom values'
 	sed -i "/Add any custom values/a require_once '/workspace/html/wp-includes/class-wp-textdomain-registry.php';" /workspace/html/wp-config.php
 
-	#add  $_REQUEST['language'] = 'en_GB'; after the line which contains "Add any custom values'
-	sed -i "/Add any custom values/a \$_REQUEST['language'] = 'en_GB';" /workspace/html/wp-config.php
-	
+
 fi
 
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
