@@ -70,7 +70,22 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 		sed -i "/Add any custom values/a define('WPLANG', 'en_GB');\$locale = 'en_GB';define( 'WP_MEMORY_LIMIT', '256M' );" /workspace/html/wp-config.php
 	fi
 	
-	mv /workspace/html/wp-config.php /workspace/html/wp-config.php.bak
+
+	#set WP_DEBUG to true, add line after the line which contains "Add any custom values' if it doesn't exist
+	if grep -q "WP_DEBUG" /workspace/html/wp-config.php; then
+		sed -i "s/define('WP_DEBUG', false);/define('WP_DEBUG', true);/" /workspace/html/wp-config.php
+	else
+		sed -i "/Add any custom values/a define('WP_DEBUG', true);" /workspace/html/wp-config.php
+	fi
+
+	#set WP_DEBUG_LOG to true, add line after the line which contains "Add any custom values' if it doesn't exist
+	if grep -q "WP_DEBUG_LOG" /workspace/html/wp-config.php; then
+		sed -i "s/define('WP_DEBUG_LOG', false);/define('WP_DEBUG_LOG', '/workspace/debug.log');/" /workspace/html/wp-config.php
+	else
+		sed -i "/Add any custom values/a define('WP_DEBUG_LOG', '/workspace/debug.log');" /workspace/html/wp-config.php
+	fi
+
+
 
 fi
 
