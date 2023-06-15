@@ -86,7 +86,7 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	fi
 
 	#add $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry(); after the line which contains "Add any custom values'
-	sed -i "/Add any custom values/a \$GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry();" /workspace/html/wp-config.php
+	sed -i "/Add any custom values/a class tmpclass{ function set(\$domain, \$locale, \$path){} }\$GLOBALS['wp_textdomain_registry'] = new tmpclass();" /workspace/html/wp-config.php
 
 
 fi
