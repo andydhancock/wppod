@@ -61,7 +61,10 @@ server {
               # With php-cgi (or other tcp sockets):
               #fastcgi_pass 127.0.0.1:9000;
 			  fastcgi_read_timeout  3600;
-      		  keepalive_timeout     0;
+			proxy_send_timeout 180s;
+			proxy_read_timeout 180s;
+			fastcgi_send_timeout 180s;
+      		  keepalive_timeout     3600;
         }
 
         # deny access to .htaccess files, if Apache's document root
