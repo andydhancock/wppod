@@ -88,7 +88,9 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 	#add $GLOBALS['wp_textdomain_registry'] = new WP_Textdomain_Registry(); after the line which contains "Add any custom values'
 	sed -i "/Add any custom values/a require_once '/workspace/html/wp-includes/class-wp-textdomain-registry.php';" /workspace/html/wp-config.php
 
-
+	#add  $_REQUEST['language'] = 'en_GB'; after the line which contains "Add any custom values'
+	sed -i "/Add any custom values/a \$_REQUEST['language'] = 'en_GB';" /workspace/html/wp-config.php
+	
 fi
 
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
