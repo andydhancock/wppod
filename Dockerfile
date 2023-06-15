@@ -4,7 +4,7 @@ FROM nvidia/cuda:11.6.2-base-ubuntu20.04
 # set working directory
 WORKDIR /workspace
 USER root 
-RUN mkdir /workspace
+RUN mkdir /workspace || true
 
 # install dependencies
 RUN apt-get update 
