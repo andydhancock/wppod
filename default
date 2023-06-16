@@ -50,6 +50,23 @@ server {
                 # as directory, then fall back to displaying a 404.
                 try_files $uri $uri/ =404;
         }
+		client_body_timeout 120;
+		client_header_timeout 120;
+		send_timeout 120;
+		proxy_connect_timeout 120;
+		proxy_send_timeout 120;
+		proxy_read_timeout 120;
+		fastcgi_send_timeout 120;
+		fastcgi_read_timeout 120;
+		proxy_buffer_size 128k;
+		proxy_buffers 4 256k;
+		proxy_busy_buffers_size 256k;
+		large_client_header_buffers 4 256k;
+		client_max_body_size 1024M;
+		client_body_buffer_size 128k;
+		proxy_max_temp_file_size 0;
+		proxy_temp_file_write_size 64k;
+	
 
         # pass PHP scripts to FastCGI server
         #
@@ -58,6 +75,7 @@ server {
         
               # With php-fpm (or other unix sockets):
               fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+			  fastcgi_param REMOTE_ADDR $http_x_real_ip;
               # With php-cgi (or other tcp sockets):
               #fastcgi_pass 127.0.0.1:9000;
 			  fastcgi_read_timeout  3600;
