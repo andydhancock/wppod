@@ -106,6 +106,7 @@ sed -i "s/max_input_vars = 1000/max_input_vars = 5000/" /etc/php/8.2/fpm/php.ini
 #change max_input_nesting_level to 128
 sed -i "s/max_input_nesting_level = 64/max_input_nesting_level = 128/" /etc/php/8.2/fpm/php.ini
 
+RUN apt-get -y remove php8.2-uopz
 
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 echo "Starting php8.2-fpm"

@@ -66,23 +66,26 @@ server {
 		client_body_buffer_size 128k;
 		proxy_max_temp_file_size 0;
 		proxy_temp_file_write_size 64k;
-	
+
 
         # pass PHP scripts to FastCGI server
         #
         location ~ \.php$ {
-              include snippets/fastcgi-php.conf;
-        
-              # With php-fpm (or other unix sockets):
-              fastcgi_pass unix:/run/php/php8.2-fpm.sock;
-			  fastcgi_param REMOTE_ADDR $http_x_real_ip;
-              # With php-cgi (or other tcp sockets):
-              #fastcgi_pass 127.0.0.1:9000;
-			  fastcgi_read_timeout  3600;
+			include snippets/fastcgi-php.conf;
+	
+			# With php-fpm (or other unix sockets):
+			fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+			fastcgi_param REMOTE_ADDR $http_x_real_ip;
+			
+			
+			# With php-cgi (or other tcp sockets):
+			#fastcgi_pass 127.0.0.1:9000;
+			fastcgi_read_timeout  3600;
 			proxy_send_timeout 180s;
 			proxy_read_timeout 180s;
 			fastcgi_send_timeout 180s;
-      		  keepalive_timeout     3600;
+			#fastcgi_intercept_errors on;
+      		keepalive_timeout     3600;
         }
 
         # deny access to .htaccess files, if Apache's document root
