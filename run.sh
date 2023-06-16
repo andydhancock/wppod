@@ -91,6 +91,22 @@ if [ ! -f /workspace/html/wp-config.php ]; then
 
 fi
 
+#change upload_max_filesize to 100M
+sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 100M/" /etc/php/8.2/fpm/php.ini
+#change post_max_size to 100M
+sed -i "s/post_max_size = 8M/post_max_size = 100M/" /etc/php/8.2/fpm/php.ini
+#change max_execution_time to 300
+sed -i "s/max_execution_time = 30/max_execution_time = 300/" /etc/php/8.2/fpm/php.ini
+#change max_input_time to 300
+sed -i "s/max_input_time = 60/max_input_time = 300/" /etc/php/8.2/fpm/php.ini
+#change memory_limit to 2048M
+sed -i "s/memory_limit = 128M/memory_limit = 2048M/" /etc/php/8.2/fpm/php.ini
+#change max_input_vars to 5000
+sed -i "s/max_input_vars = 1000/max_input_vars = 5000/" /etc/php/8.2/fpm/php.ini
+#change max_input_nesting_level to 128
+sed -i "s/max_input_nesting_level = 64/max_input_nesting_level = 128/" /etc/php/8.2/fpm/php.ini
+
+
 cp /workspace/php.ini /etc/php/8.2/fpm/conf.d/zzz_custom.ini
 echo "Starting php8.2-fpm"
 service php8.2-fpm start
